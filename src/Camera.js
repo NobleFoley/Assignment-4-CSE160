@@ -2,8 +2,8 @@ class Camera {
   // Constructor
   constructor() {
     this.type = "camera";
-    this.g_eye = new Vector3([12.5, 0.5, 0]);
-    this.g_at = new Vector3([12.5, 0.5, 100]);
+    this.g_eye = new Vector3([4, 0.5, 0]);
+    this.g_at = new Vector3([4, 0.5, 100]);
     this.g_up = new Vector3([0, 1, 0]);
   }
   moveForward() {
