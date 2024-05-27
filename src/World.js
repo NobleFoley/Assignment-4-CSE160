@@ -29,6 +29,7 @@ var FSHADER_SOURCE = `
   uniform vec4 u_FragColor;
   uniform vec3 u_cameraPos;
   uniform vec3 u_lightPos;
+  uniform vec3 u_lightPos2;
   uniform vec3 u_lightColor;
   uniform bool u_lightOn;
   uniform sampler2D u_Sampler0;
@@ -117,20 +118,7 @@ var FSHADER_SOURCE = `
       gl_FragColor = vec4(specular * u_lightColor + diffuse + ambient, 1.0);  
     }
 
-    vec3 u_lightPos2 = vec3(-5,0,-1);
-    // vec3 lightVector2 = vec3(v_VertPos) - u_lightPos2;
-    // float lightDistance = length(lightVector2);
-    // vec3 L2 = lightVector2 / lightDistance; // Normalize the light vector
-
-    // float angleCos = dot(L2, normalize(-u_lightPos2));
-    // if (angleCos > cos(radians(30.0))) { // Inside the spotlight cone
-    //     vec3 N = normalize(v_Normal);
-    //     float nDotL2 = max(dot(N, L2), 0.0); // Diffuse term for second light
-    //     vec3 diffuse2 = vec3(gl_FragColor) * nDotL2 * u_lightColor;
-    //     if (u_lightOn) {
-    //         gl_FragColor = gl_FragColor *0.9 + vec4(diffuse2 , 0.0);  
-    //     }
-    // }
+    // Spot Light Calculations
     vec3 lightVector2 = vec3(v_VertPos) - u_lightPos2;
     float lightDistance = length(lightVector2);
     vec3 L2 = normalize(lightVector2);
@@ -161,6 +149,7 @@ let u_cameraPos;
 let u_lightOn;
 let u_NormalMatrix;
 let u_lightColor;
+let u_lightPos2;
 
 function setUpWebGL() {
   // Retrieve <canvas> element
@@ -285,6 +274,13 @@ function connectVariablesToGLSL() {
     console.log("Failed to get the storage location of u_lightColor");
     return;
   }
+
+  u_lightPos2 = gl.getUniformLocation(gl.program, "u_lightPos2");
+  if (!u_lightPos2) {
+    console.log("Failed to get the storage location of u_lightPos2");
+    return;
+  }
+
   var identityM = new Matrix4();
   gl.uniformMatrix4fv(u_ModelMatrix, false, identityM.elements);
 }
@@ -309,6 +305,7 @@ let g_camera = false;
 let g_lightOn = true;
 let g_lightAnim = true;
 let g_lightColor = [1, 1, 1];
+let g_lightPos2 = [-5, 0, -1];
 
 function addActionsForHtmlUI() {
   document.getElementById("light_on").onclick = function () {
@@ -435,6 +432,24 @@ function addActionsForHtmlUI() {
     g_lightPos[2] = this.value / 100;
     renderAllShapes();
   });
+  document
+    .getElementById("Spot_Light_x")
+    .addEventListener("input", function () {
+      g_lightPos2[0] = this.value / 100;
+      renderAllShapes();
+    });
+  document
+    .getElementById("Spot_Light_y")
+    .addEventListener("input", function () {
+      g_lightPos2[1] = this.value / 100;
+      renderAllShapes();
+    });
+  document
+    .getElementById("Spot_Light_z")
+    .addEventListener("input", function () {
+      g_lightPos2[2] = this.value / 100;
+      renderAllShapes();
+    });
 
   document
     .getElementById("light_color_picker")
@@ -749,7 +764,8 @@ function drawMap() {
       for (y = 0; y < 16; y++) {
         if (g_map[i][x][y] == 1) {
           if (x > 0 && x < 15 && y > 0 && y < 15) {
-            body.textureNum = 6;
+            if (g_Normals) body.textureNum = -3;
+            else body.textureNum = 6;
           } else {
             body.textureNum = -2;
           }
@@ -876,6 +892,7 @@ function renderAllShapes() {
   cubby.renderNormal();
 
   gl.uniform3f(u_lightPos, g_lightPos[0], g_lightPos[1], g_lightPos[2]);
+  gl.uniform3f(u_lightPos2, g_lightPos2[0], g_lightPos2[1], g_lightPos2[2]);
   gl.uniform3f(
     u_cameraPos,
     world_camera.g_eye.elements[0],

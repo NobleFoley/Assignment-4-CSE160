@@ -7,6 +7,7 @@
     Used classes for my drawCube function it is called render()
     renderScene() is renderallShapes()
     Color Picker = https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Input/color
+    Hex to RGB = https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
 
 -->
 <html lang="en">
@@ -61,9 +62,38 @@
           value="100"
           class="slider"
         />
-        <label for="light_z">Light z:</label>
+        <label for="light_z">Spot Light z:</label>
         <input
           id="light_z"
+          type="range"
+          min="-300"
+          max="1000"
+          value="500"
+          class="slider"
+        />
+      </div>
+      <div>
+        <label for="Spot_Light_x">Spot Light X:</label>
+        <input
+          id="Spot_Light_x"
+          type="range"
+          min="-300"
+          max="1000"
+          value="500"
+          class="slider"
+        />
+        <label for="Spot_Light_y">Spot Light Y:</label>
+        <input
+          id="Spot_Light_y"
+          type="range"
+          min="-50"
+          max="400"
+          value="100"
+          class="slider"
+        />
+        <label for="Spot_Light_z">Spot Light z:</label>
+        <input
+          id="Spot_Light_z"
           type="range"
           min="-300"
           max="1000"
