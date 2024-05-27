@@ -6,6 +6,7 @@
   Notes to Grader:
     Used classes for my drawCube function it is called render()
     renderScene() is renderallShapes()
+    Color Picker = https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Input/color
 
 -->
 <html lang="en">
@@ -26,16 +27,68 @@
     <div>
       <div>
         <p>*Shift Click the Canvas for a special animation on the animal</p>
-        <p>*Left Click to Place Blocks</p>
+        <p>*Left Click or "Z" to Place Blocks</p>
         <p>
-          *Right Click to Delete Blocks (Note: You kinda gotta look up more than
-          you think to delete them)
+          *Right Click or "C" to Delete Blocks (Note: You kinda gotta look up
+          more than you think to delete them)
         </p>
         <p>*Move - W A S D</p>
         <p>*Rotate - Q E or MOUSE</p>
         <p>*Shift to go down</p>
         <p>*Space to go up</p>
       </div>
+      <div style="margin-top: 1rem">
+        <label for="tail_base_input">Normals (F key) or:</label>
+        <button type="button" id="normals_on">ON</button>
+        <button type="button" id="normals_off">OFF</button>
+      </div>
+      <div>
+        <label for="light_x">Light X:</label>
+        <input
+          id="light_x"
+          type="range"
+          min="-300"
+          max="1000"
+          value="500"
+          class="slider"
+        />
+        <label for="light_y">Light Y:</label>
+        <input
+          id="light_y"
+          type="range"
+          min="-50"
+          max="400"
+          value="100"
+          class="slider"
+        />
+        <label for="light_z">Light z:</label>
+        <input
+          id="light_z"
+          type="range"
+          min="-300"
+          max="1000"
+          value="500"
+          class="slider"
+        />
+      </div>
+      <div>
+        <label>All Lights:</label>
+        <button type="button" id="light_on">ON</button>
+        <button type="button" id="light_off">OFF</button>
+      </div>
+      <div>
+        <label>Light Animation:</label>
+        <button type="button" id="light_animation_on">ON</button>
+        <button type="button" id="light_animation_off">OFF</button>
+      </div>
+      <div>
+        <label for="camera">Camera Toggle: X key</label>
+      </div>
+      <div>
+        <label for="light_color_picker">Light Color:</label>
+        <input type="color" id="light_color_picker" value="#ffffff" />
+      </div>
+
       <div style="margin-top: 1rem">
         <label for="tail_base_input">Tail Base:</label>
         <input
@@ -131,10 +184,10 @@
           id="camera_input"
           type="range"
           ,
-          min="0"
+          min="-90"
           ,
           max="90"
-          value="5"
+          value="0"
           class="slider"
         />
       </div>
@@ -150,6 +203,7 @@
     <script src="Cube.js"></script>
     <script src="Cylinder.js"></script>
     <script src="Camera.js"></script>
+    <script src="Sphere.js"></script>
     <script src="World.js"></script>
   </body>
 </html>
